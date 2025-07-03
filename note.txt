@@ -1,0 +1,164 @@
+//run
+npm start
+http://127.0.0.1:3000/
+
+//Test 
+sophie@example.com
+test1234
+
+// WEBSITE https://www.natours.dev/
+// <unwind> do deconstract array field from input field and the output one document for each element of the array
+// <"this"> key word point to the currently process documetn , we have access to the document that being process & "this" key only points to current doc on new document creation
+
+// <slug> is just string that we can put in url usually in some string
+// npm i slugify
+// findOne/findById this two are same
+
+// #4 TYPE OF MIDDLEWARE IN MONGOOSE
+// --DOCUMENT MIDDLEWARE, --QUERY MIDDLEWARE, --AGGRIGATE MIDDLEWARE, --MODEL MIDDLEWARE
+
+// <DOCUMENT MIDDLEWARE> which is act on currently process documnet example go to toureModel
+// DOCUMENT MIDDLEWARE :runs before .save() and create() not insertMany
+// this middleware called pre save hook/middleware
+// tourSchema.pre('save',function(){
+// console.log(this)
+// })
+
+//< QUERY MIDDLEWARE> allows us to run function before or after certain query executed
+//middleware run before find query is executed
+// tourSchema.pre('find',function(){}) find hook (this) point current query middleware not document middleware
+
+// <AGGRIGATE MIDDLEWARE>
+// allows us to hook before or after aggrigation happen
+
+//<VALIDATORES> if you want validators google-->validator github--> https://github.com/validatorjs/validator.js
+// npm i validator
+
+// <DEBUGGING NODE.JS WITH NDB> npm i ndb --global or --save-dev // go to package.json script "debug":"ndb server.js" //go to terminal npm run debug
+
+// <SANITIZATION> : clean all data that comes into app from malicious code , insure that input data basicaly clean so there is no malicious code injected in to our database or application itself it is crucial( npm i express-mongo-sanitize and npm i xss-clean)
+
+// operational error : invalid path accessed,unvalid user input,failed to connect DB, request timeout
+// programming error : Bugs that we programmer introduced into our code
+
+// err.stack : stack trace is show you where error happen
+
+//<catching error in async functtion >
+// const catchAsync = fn => {
+//     return (req, res, next) => {
+//       fn(req, res, next).catch(next); <-same->  .catch(err => next(err))
+//     };
+//   };
+
+// <SECURITY>
+//COMPROMISED DATA BASE : meaning attacker gain access to our database  prevent encrypt password encrypt and crypto
+//BRUTE FORCE ATTACK : attacker guess by tring millions of random password untile find the right one to prevent using bcrypt to make login requiet slow , rate limiting ,maximum login attempts
+//CROSS SIT SCTIPT OR XSS ATTACK : attacker injection script in to our page and run malisiouse code in client side allow to read local storage so use store JWT httpOnly cookies, in server side sanitize user input data and set special http headers(helmet package)
+//DENIAL OF SERVICE (DOS) ATTACKS : attacker sent somemeny request to server that breakes down so rate limiting,limit body payload means limit amount of data that sent in body in post or patch requiest, avoid evil regular expression in our code
+// NOSQL QUERY INJECTION : when attacker instead of inputing valid data inject some query in order create query expression translate to true for example loged in evin with out prevent valid user name or password so, use mongoose for mongoDB(because of sechema type) and sanitize user inpute data
+
+//<PARAMETER POLLUTION> : npm i hpp (http parameter pollution)
+// <COOKIES> is a small pice of text a server send to client and client recive cookie automatically store it and automaticly sent back along with all feature requiest to same server.
+// in order to access cookies in requiest in express install package --> npm i cookie-parser  all cookies parse incoming request
+
+// <RATE LIMITING> npm i express-rate-limit
+// <http headers(helmet package)> npm i helmet  //google doc--> helmet github --> collection multiple middleware if you want additional package manualy active check docmentation
+
+// <END POINT> where a user retrive his own data
+
+// VALIDATE TO TURN OFF---> await User.create(users, { validateBeforeSave: false });
+
+/* <INDEX> improve reading performace  looking on postman---> await features.query.explain();
+postman url--> price[lt]=1000&ratingsAverage[gte]=4.7
+ tourSchema.index({ price: 1 });
+ COMPOUND INDEX
+tourSchema.index({ price: 1, ratingsAverage: -1 });
+"Reminder" --> each index need update each time under line collection updated if you have collecton high read/write ratio absolutely no sence create index on any field collection
+*/
+
+// <Geospatial> docmentation https://www.mongodb.com/docs/manual/geospatial-queries/
+
+//<PUG.js> is a templating engine designed to render HTML in server-side technologies such as Node.js. package-> npm i pug
+// app.js
+// app.get('/', (req, res) => {
+//   res.status(200).render('base', {
+//     tour: 'The Forest Hiker',
+//     user: 'Jemal'
+//   });
+// });
+// base.pug
+//  h1= tour  called buffered code it evalute javaScript expression and outputs the results
+// h2 = user.toUpperCase(); //- to write javaScript code
+
+// -const c = 9 called unbaffered code nothing add in output
+// h2= c * 2
+
+// title Natours | #{tour} interpolation syntax like template string ${}
+
+// <INDENTATION> there is extention called  pug beautify,  select code and hit (cltr + shift +p)
+
+// <MapBox> https://www.mapbox.com/  jemalmana, Jemal@71203, jemalabdulkadir712@gmail.com  ::episode 14 not work. bundles in episode 018 14min
+
+// <ESLINT DISABLE> --> /* eslint-disable */
+
+// <AXIOS>library in order to http requiest for login --> https://cdnjs.com/libraries/axios
+// npm i axios use this package instead of the above
+
+// <PARCEL> npm i parcel-bundler@1 --save-dev
+
+// <POLYFILL> which make new javascript feature enabel work in all browser ---> npm i @babel/polyfill
+// index.js -->  import '@babel/polyfill'
+
+// <TRADITIONAL WAY OF UPDATE USER DATA>
+// form.form.form-user-data(action='/submit-user-data' method='POST') --> send data using urlencoded
+// encode all data submited in url a bite like query string and next one name property in a field actualy we want to send name of this field the body recived to recived use req.body example --> input#name.form__input(type='text', value=`${user.name}`, required, name='name')
+//app.js--> PARSE DATA COMES FROM FORM--> app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+
+
+#
+// if user input id like 127.0.0.1:4000/api/v1/tours/wwwwww mongoose can not convert mogodb id 
+if (error.name === 'CastError') error = handleCastErrorDB(error);
+
+//when you create if field duplicate
+if (error.code === 11000) error = handleDuplicateFieldsDB(error);
+
+//validation error
+if (error.name === 'ValidationError') error = handleValidationErrorDB(error);
+
+//
+if (error.name === 'JsonWebTokenError') error = handleJWTError();
+
+if (error.name === 'TokenExpiredError') error = handleJWTExpiredError();
+
+#populate - using populate create new query this may affect your performace
+
+//mapbox to include bundel index.js and mapbox check episode 018-> 14:00m
+
+
+//mailsac - to create email and send to it
+https://mailsac.com/
+
+
+//config git  (Local git installation) on cmd
+#set
+git config --global user.name "jemal abdulkadir"
+git config --global user.name "jemal.mana59@gmail.com"
+
+#remove email and name seted in git
+ git config --global --unset user.name
+ git config --global --unset user.email
+ git config --global --list
+
+#git
+--initialized empty git repository 
+git init 
+
+--git ignore file we don't want in repository
+create .gitignore in root folder
+
+--to see modified file
+git status
+
+--To commit one add into called staged area and then commit all the file to new commit
+git add -A
+
