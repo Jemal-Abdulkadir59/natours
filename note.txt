@@ -170,3 +170,6 @@ git add note.txt
 
 --check status
 git status
+
+--commit
+git commit -m "added comment"
