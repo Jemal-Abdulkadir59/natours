@@ -159,6 +159,14 @@ create .gitignore in root folder
 --to see modified file
 git status
 
+why we need add stageing if you want add diffrent file for diffrent commit imagin you change file but only commit 5 of them so by staging you can do 
 --To commit one add into called staged area and then commit all the file to new commit
 git add -A
+--commit and the message discriptive of the changes that you did. we saved all the modification to repository
+git commit -m "Initial commit"
 
+--if modified
+git add note.txt
+
+--check status
+git status
